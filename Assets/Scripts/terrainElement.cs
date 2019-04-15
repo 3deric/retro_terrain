@@ -12,14 +12,14 @@ public class terrainElement : MonoBehaviour
     private int[] tris;
     private Vector2[] uvs;
 
-    void OnDrawGizmosSelected()
-    {
-        foreach(Vector3 vec3 in coords)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(vec3, .1f);
-        }
-    }
+    // void OnDrawGizmosSelected()
+    // {
+    //     foreach(Vector3 vec3 in coords)
+    //     {
+    //         Gizmos.color = Color.red;
+    //         Gizmos.DrawSphere(vec3, .1f);
+    //     }
+    // }
 
     void Start()
     { 
