@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class terrainElement : MonoBehaviour
 {
     public int width = 10;
+    private Mesh mesh;
+    private MeshFilter meshFilter;
     private Vector3[] coords;
+    private Vector3[] verts;
+    private int[] tris;
+    private Vector2[] uvs;
 
     void OnDrawGizmosSelected()
     {
@@ -17,6 +24,7 @@ public class terrainElement : MonoBehaviour
     void Start()
     { 
         CreateCoords();
+        CreateMesh();
     }
 
     private void CreateCoords()
@@ -41,5 +49,53 @@ public class terrainElement : MonoBehaviour
             } 
         }
 
+    }
+
+    private void CreateMesh()
+    {
+        meshFilter = this.GetComponent<MeshFilter>();
+        mesh = new Mesh();
+        meshFilter.mesh = mesh;
+
+        verts = new Vector3[width * width * 6];
+        uvs = new Vector2[verts.Length];
+        tris = new int[width * width * 6];
+    
+ for (int i = 0, z = 0; z < width; z++) 
+        {
+            //outer loop for z-axis
+			for (int x = 0; x < width; x++, i += 6) 
+            {
+                //setting verts
+                verts[i] =   coords[x * (width + 1) + z];
+                verts[i+1] = coords[(x +1) * (width+1) + z];
+                verts[i+2] = coords[(x +1) * (width+1) + z + 1];
+                verts[i+3] = coords[x * (width+1) + z + 1];
+                verts[i+4] = coords[x * (width + 1) + z];
+                verts[i+5] = coords[(x +1) * (width+1) + z + 1];
+
+                //setting tris
+                tris[i] = i;
+                tris[i +1] = i +1;
+                tris[i +2] = i +2;
+                tris[i +3] = i +4;
+                tris[i +4] = i +5;
+                tris[i +5] = i +3;
+                //setting uvs
+                uvs[i] = new Vector2(0, 0);
+                uvs[i+1] = new Vector2(0,1 );
+                uvs[i+2] = new Vector2(1,1);
+                uvs[i+3] = new Vector2(1,0);
+                uvs[i+4] = new Vector2(0,0);
+                uvs[i+5] = new Vector2(1,1);
+                               
+			}
+		}
+
+        mesh.vertices = verts;
+        mesh.uv = uvs;
+        mesh.triangles = tris;
+        mesh.RecalculateNormals();
+    
     }
 }
