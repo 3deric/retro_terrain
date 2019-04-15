@@ -51,6 +51,19 @@ public class terrainElement : MonoBehaviour
 
     }
 
+    private bool TriangulationCheck(Vector3 coord0, Vector3 coord1)
+    {
+        if(coord0.y == coord1.y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     private void CreateMesh()
     {
         meshFilter = this.GetComponent<MeshFilter>();
@@ -61,7 +74,7 @@ public class terrainElement : MonoBehaviour
         uvs = new Vector2[verts.Length];
         tris = new int[width * width * 6];
     
- for (int i = 0, z = 0; z < width; z++) 
+        for (int i = 0, z = 0; z < width; z++) 
         {
             //outer loop for z-axis
 			for (int x = 0; x < width; x++, i += 6) 
@@ -71,31 +84,55 @@ public class terrainElement : MonoBehaviour
                 verts[i+1] = coords[(x +1) * (width+1) + z];
                 verts[i+2] = coords[(x +1) * (width+1) + z + 1];
                 verts[i+3] = coords[x * (width+1) + z + 1];
-                verts[i+4] = coords[x * (width + 1) + z];
-                verts[i+5] = coords[(x +1) * (width+1) + z + 1];
+                
+                if(TriangulationCheck( coords[x * (width + 1) + z],coords[(x +1) * (width+1) + z + 1]))
+                {
+                    //setting extra vertices
+                    verts[i+4] = coords[x * (width + 1) + z];
+                    verts[i+5] = coords[(x +1) * (width+1) + z + 1];
 
-                //setting tris
-                tris[i] = i;
-                tris[i +1] = i +1;
-                tris[i +2] = i +2;
-                tris[i +3] = i +4;
-                tris[i +4] = i +5;
-                tris[i +5] = i +3;
-                //setting uvs
-                uvs[i] = new Vector2(0, 0);
-                uvs[i+1] = new Vector2(0,1 );
-                uvs[i+2] = new Vector2(1,1);
-                uvs[i+3] = new Vector2(1,0);
-                uvs[i+4] = new Vector2(0,0);
-                uvs[i+5] = new Vector2(1,1);
+                    //setting tris
+                    tris[i] = i;
+                    tris[i +1] = i +1;
+                    tris[i +2] = i +2;
+                    tris[i +3] = i +4;
+                    tris[i +4] = i +5;
+                    tris[i +5] = i +3;
+                    //setting uvs
+                    uvs[i] = new Vector2(0, 0);
+                    uvs[i+1] = new Vector2(0,1 );
+                    uvs[i+2] = new Vector2(1,1);
+                    uvs[i+3] = new Vector2(1,0);
+                    uvs[i+4] = new Vector2(0,0);
+                    uvs[i+5] = new Vector2(1,1);
+                }
+                else
+                {
+                    //setting extra vertices
+                    verts[i+4] = coords[x * (width+1) + z + 1];
+                    verts[i+5] = coords[(x +1) * (width+1) + z];
+
+                    //setting tris
+                    tris[i] = i;
+                    tris[i +1] = i +1;
+                    tris[i +2] = i +3;
+                    tris[i +3] = i +4;
+                    tris[i +4] = i +5;
+                    tris[i +5] = i +2;
+                    //setting uvs
+                    uvs[i] = new Vector2(0, 0);
+                    uvs[i+1] = new Vector2(0,1 );
+                    uvs[i+2] = new Vector2(1,1);
+                    uvs[i+3] = new Vector2(1,0);
+                    uvs[i+4] = new Vector2(1,0);
+                    uvs[i+5] = new Vector2(0,1);
+                }
                                
 			}
 		}
-
         mesh.vertices = verts;
         mesh.uv = uvs;
         mesh.triangles = tris;
         mesh.RecalculateNormals();
-    
     }
 }
