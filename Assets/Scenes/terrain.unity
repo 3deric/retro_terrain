@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44892728, g: 0.4989943, b: 0.5757057, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
@@ -172,13 +172,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 170076733}
-  m_LocalRotation: {x: 0.34518728, y: -0.5341823, z: 0.14617898, w: 0.7577115}
+  m_LocalRotation: {x: 0.33488092, y: -0.58262455, z: 0.16845597, w: 0.72112834}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 42.787003, y: -74.915, z: -11.576}
+  m_LocalEulerAnglesHint: {x: 42.787003, y: -82.420006, z: -11.576}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ Camera:
   far clip plane: 25
   field of view: 60
   orthographic: 1
-  orthographic size: 6.87
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
