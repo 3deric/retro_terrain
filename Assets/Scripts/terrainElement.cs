@@ -9,6 +9,7 @@ public class terrainElement : MonoBehaviour
     private MeshFilter meshFilter;
     private Vector3[] coords;
     private Vector3[] verts;
+    private Color[] colors;
     private int[] tris;
     private Vector2[] uvs;
 
@@ -62,7 +63,22 @@ public class terrainElement : MonoBehaviour
             return false;
         }
     }
-
+    
+    private Color VertexColor(float height)
+    {
+        if(height < 1.5)
+        {
+            return Color.black;
+        }
+        else if(height < 3.5)
+        {
+            return Color.red;
+        }
+        else
+        {
+            return Color.green;
+        }
+    }
 
     private void CreateMesh()
     {
@@ -71,6 +87,7 @@ public class terrainElement : MonoBehaviour
         meshFilter.mesh = mesh;
 
         verts = new Vector3[width * width * 6];
+        colors = new Color[verts.Length];
         uvs = new Vector2[verts.Length];
         tris = new int[width * width * 6];
     
@@ -84,12 +101,21 @@ public class terrainElement : MonoBehaviour
                 verts[i+1] = coords[(x +1) * (width+1) + z];
                 verts[i+2] = coords[(x +1) * (width+1) + z + 1];
                 verts[i+3] = coords[x * (width+1) + z + 1];
+
+                colors[i] =  VertexColor(coords[x * (width + 1) + z].y);
+                colors[i+1] = VertexColor(coords[(x +1) * (width+1) + z].y);
+                colors[i+2] = VertexColor(coords[(x +1) * (width+1) + z + 1].y);
+                colors[i+3] = VertexColor(coords[x * (width+1) + z + 1].y);
                 
                 if(TriangulationCheck( coords[x * (width + 1) + z],coords[(x +1) * (width+1) + z + 1]))
                 {
                     //setting extra vertices
                     verts[i+4] = coords[x * (width + 1) + z];
                     verts[i+5] = coords[(x +1) * (width+1) + z + 1];
+
+                    //setting vertex colors
+                    colors[i+4] = VertexColor(coords[x * (width + 1) + z].y);
+                    colors[i+5] = VertexColor(coords[(x +1) * (width+1) + z + 1].y);
 
                     //setting tris
                     tris[i] = i;
@@ -112,6 +138,10 @@ public class terrainElement : MonoBehaviour
                     verts[i+4] = coords[x * (width+1) + z + 1];
                     verts[i+5] = coords[(x +1) * (width+1) + z];
 
+                    //setting vertex colors
+                    colors[i+4] = VertexColor(coords[x * (width+1) + z + 1].y);
+                    colors[i+5] = VertexColor(coords[(x +1) * (width+1) + z].y);
+
                     //setting tris
                     tris[i] = i;
                     tris[i +1] = i +1;
@@ -131,6 +161,7 @@ public class terrainElement : MonoBehaviour
 			}
 		}
         mesh.vertices = verts;
+        mesh.colors = colors;
         mesh.uv = uvs;
         mesh.triangles = tris;
         mesh.RecalculateNormals();

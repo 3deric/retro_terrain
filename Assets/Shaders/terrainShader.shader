@@ -16,6 +16,7 @@
     struct Input 
     {
           float2 uv_MainTex;
+          float4 vertColor : COLOR;
     };
 
     sampler2D _MainTex;
@@ -31,7 +32,8 @@
       {
           lines = 1 - _LineVisibility;
       }
-      o.Albedo =  main * lines;
+      // o.Albedo =  main * lines;
+      o.Albedo = IN.vertColor.rgb;
     }
       ENDCG
     }
