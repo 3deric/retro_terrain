@@ -5,7 +5,7 @@ public class terrainManager : MonoBehaviour {
     public static terrainManager instance;
 	public int terrainWidth, elementWidth;
 	public terrainElement terrainPrefab;
-	// [HideInInspector]
+	[HideInInspector]
     public Vector3[] coords;
     [HideInInspector]
 	public terrainElement[] terrainElements;
